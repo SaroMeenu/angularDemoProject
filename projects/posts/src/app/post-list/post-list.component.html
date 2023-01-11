@@ -1,0 +1,161 @@
+
+
+<h2>Post List</h2>
+<button class="btn btn-lg btn-outline-primary" (click)="open(mymodal)" style="float: right;">Add Post</button>
+
+<table class="table table-striped">
+    <thead>
+		<tr>
+			<th class="col-md-1" scope="col">#</th>
+			<th class="col-md-4" scope="col">Title</th>
+			<th class="col-md-5" scope="col">Description</th>
+			<th class="col-md-3" scope="col">Action</th>
+		</tr>
+	</thead>
+  
+  <!-- <tr> -->
+      <tbody *ngFor="let data of postData; index as i">
+        <tr>
+            <th  scope="row">{{ i + 1 }}</th>
+            <td>{{data.title}}</td>
+            <td>{{data.body}}</td>
+            <td *ngIf= "data.user_id == userId">
+                <button class="btn btn-sm btn-outline-primary" (click)="openModal(viewmodal, data.id , 'view')"> View</button>
+                <button class="btn btn-sm btn-outline-primary" (click)="openModal(mycommentmodal, data.id, 'add')"> Add</button>
+                <button class="btn btn-sm btn-outline-primary" (click)="openModal(confirmmationmodal,data.id,'delete')"> delete</button>
+            </td>
+            <td *ngIf="data.user_id != userId">
+
+            </td>
+        </tr>
+      </tbody>
+  <!-- </tr> -->
+</table>
+
+    
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Post</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="addPostForm">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="email" class="form-control" id="title" formControlName="title">
+
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" name="description" rows="4" cols="50" formControlName="description"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="savePost(successmodal)">Save</button>
+      </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #mycommentmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Comments</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="addCommentForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" readonly>
+  
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email" readonly>
+  
+          </div>
+          <div class="mb-3">
+            <label for="comments" class="form-label">Comments</label>
+              <textarea id="comments" class="form-control" name="comments" rows="4" cols="50" formControlName="comments"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary" (click)="postComments(successmodal)">Post</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #viewmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">View Comments</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-md-1" scope="col">Name</th>
+                    <th class="col-md-4" scope="col">Email</th>
+                    <th class="col-md-5" scope="col">Comments</th>
+                </tr>
+            </thead>
+          
+          <!-- <tr> -->
+              <tbody *ngFor="let data of commentData">
+                <tr>
+                    <td>{{ data.name }}</td>
+                    <td>{{data.email}}</td>
+                    <td>{{data.body}}</td>
+
+                </tr>
+              </tbody>
+          <!-- </tr> -->
+        </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #successmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Success</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>  
+    <div class="modal-body">
+        {{modalContentMessage}}
+    </div>  
+   
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #confirmmationmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Delete Post</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>  
+    <div class="modal-body">
+        Are you sure you want to delete the post ?     
+    </div>   
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="deletePost(successmodal)">Yes</button> <br />
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">No</button>
+    </div>
+  </ng-template>
+
+
+
+
