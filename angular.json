@@ -97,6 +97,7 @@
 							"zone.js",
 							"zone.js/testing"
 						],
+						"codeCoverage": true,
 						"tsConfig": "projects/shell/tsconfig.spec.json",
 						"inlineStyleLanguage": "scss",
 						"assets": [
@@ -315,6 +316,7 @@
 							"zone.js",
 							"zone.js/testing"
 						],
+						"codeCoverage": true,
 						"tsConfig": "projects/login/tsconfig.spec.json",
 						"inlineStyleLanguage": "scss",
 						"assets": [
@@ -424,6 +426,7 @@
 							"zone.js",
 							"zone.js/testing"
 						],
+						"codeCoverage": true,
 						"tsConfig": "projects/register/tsconfig.spec.json",
 						"inlineStyleLanguage": "scss",
 						"assets": [

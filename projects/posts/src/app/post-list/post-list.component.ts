@@ -31,6 +31,7 @@ export class PostListComponent implements OnInit {
     userEmail: any;
     modalContentMessage: any;
     commentData: any;
+    commentId: any;
     constructor (public postsService: PostsService,private modalService: NgbModal) {
     this.userId= localStorage.getItem("userId");
 
@@ -100,6 +101,15 @@ export class PostListComponent implements OnInit {
         }
     }
 
+    openCommentModal(content:any, commentId:any){
+        this.commentId = commentId;
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    }
+
 
     savePost(content:any){
 
@@ -142,6 +152,16 @@ export class PostListComponent implements OnInit {
         this.successModal(content);
         this.getPostList();
         })
+    }
+
+    deleteComment(content:any){
+
+        this.postsService.deleteComments(this.commentId).subscribe(res =>{
+            this.modalService.dismissAll();
+            this.modalContentMessage = 'Comment deleted successfully'
+            this.successModal(content);
+            // this.getPostList();
+            })
     }
 
 }

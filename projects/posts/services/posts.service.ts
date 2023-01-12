@@ -61,4 +61,14 @@ export class PostsService {
         let url=`https://gorest.co.in/public/v2/posts/${id}/comments`;
         return this.http.get(url , { headers: header });
       }
+
+      deleteComments(id:any){
+
+        let header = new HttpHeaders().set(
+            "Authorization",
+            "Bearer cf57c82b14e5ce0c0b92c6b92973df50f0cd2bdd606d2a72026e822a4898180f"
+          );
+        let url=`https://gorest.co.in/public/v2/comments/${id}`;
+        return this.http.delete(url , { headers: header });
+      }
 }
